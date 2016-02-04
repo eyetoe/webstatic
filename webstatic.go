@@ -2,19 +2,18 @@ package main
 
 import (
 	"fmt"
+	"github.com/rakyll/statik/fs"
 	"log"
 	"net/http"
-	// relative path to the statik bin data
-	_ "./statik"
-	//_ "github.com/eyetoe/webstatic/statik"
-	"github.com/rakyll/statik/fs"
 	"os/exec"
 	"runtime"
+	// initialize binary data in statik dir
+	_ "github.com/eyetoe/webstatic/statik"
 )
 
 // Before buildling, run `statik -src=./data`
 // to generate the statik package.
-// Then, run the main program and visit http://localhost:8080/public/hello.txt
+// Note! when updating contents of ./data delete the ./statik dir so it can be recreated
 func main() {
 	statikFS, err := fs.New()
 	if err != nil {
@@ -23,7 +22,7 @@ func main() {
 
 	// Serve the data from the root
 	http.Handle("/", http.FileServer(statikFS))
-	// Serve the data from the ./assets/ also for example
+	// Serve the data from the ./assets/ here as an example
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(statikFS)))
 
 	openURL("http://localhost:8080/")
