@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/rakyll/statik/fs"
 	"log"
 	"net/http"
 	"os/exec"
 	"runtime"
+
+	"github.com/rakyll/statik/fs"
 	// initialize binary data in statik dir
 	_ "github.com/eyetoe/webstatic/statik"
 )
@@ -25,8 +26,11 @@ func main() {
 	// Serve the data from the ./assets/ here as an example
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(statikFS)))
 
-	openURL("http://localhost:8080/")
-	http.ListenAndServe(":8080", nil)
+	if nope := 1; nope != 1 {
+		openURL("http://localhost:8080/")
+	}
+	fmt.Println("listening on TCP:8080")
+	http.ListenAndServe("0.0.0.0:8080", nil)
 }
 
 func openURL(url string) error {
